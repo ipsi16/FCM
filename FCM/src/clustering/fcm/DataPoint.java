@@ -11,14 +11,9 @@ public class DataPoint {
 		this.point = new ArrayList<Float>();
 	}
 	
-	public void DataPoint(ArrayList<Float> point)
+	public DataPoint(ArrayList<Float> point)
 	{
-		int i=0;
-		for (Float dim : point)
-		{
-			this.point.set(i++, dim);
-		}
-		System.out.println(point);
+			this.point = point;
 	}
 	
 	public ArrayList<Float> getPoint()
@@ -52,6 +47,18 @@ public class DataPoint {
 		distance = (float) Math.sqrt(distance);	
 		
 		return distance;
+	}
+	
+	public static DataPoint copyDataPoint(DataPoint orgDataPoint)
+	{
+		if(orgDataPoint==null) return null;
+		DataPoint copy = new DataPoint();
+		for(Float dim: orgDataPoint.point)
+		{
+			copy.point.add(dim);
+			
+		}
+		return copy;
 	}
 	
 	
