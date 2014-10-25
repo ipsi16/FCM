@@ -145,7 +145,6 @@ public class Fcm {
 			for(int j=0; j<datapoints.size();j++)
 			{
 				float dij = DataPoint.distanceBetween(clusters.get(i).centroid,datapoints.get(j) );
-				//System.out.println(dij);
 				
 				if(dij==0.0f)
 				{
