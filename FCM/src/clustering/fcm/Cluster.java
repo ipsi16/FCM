@@ -1,10 +1,13 @@
 package clustering.fcm;
 
+import java.util.ArrayList;
+
 import clustering.fcm.DataPoint;
 
 public class Cluster
 {
 	public DataPoint centroid;
+	public ArrayList<DataPoint> memberDataPoints;
 	
 	Cluster(DataPoint centroid)
 	{
@@ -16,6 +19,8 @@ public class Cluster
 		{
 			this.centroid.point.add(centroid.point.get(i));
 		}
+		
+		memberDataPoints = new ArrayList<DataPoint>();
 		
 	}
 	

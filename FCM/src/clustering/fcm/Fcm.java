@@ -12,6 +12,8 @@
 
 package clustering.fcm;
 
+import indexes.DBIndex;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -21,9 +23,10 @@ import java.io.FileReader;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-public class Fcm {
+public class Fcm 
+{
 	public static final int n = 500;
-	public static final int noOfClusters = 5;
+	public static final int noOfClusters = 3;
 	public static final float epsolon = 0.01f;
 	public static final int m = 2;	
 	public static ArrayList<Cluster> clusters = new ArrayList<Cluster>();
@@ -85,6 +88,23 @@ public class Fcm {
             }
             System.out.println();         
 		}
+        
+        allotPointsToClusters();
+        
+        /*int i =0;
+        for(Cluster c : clusters)
+        {
+        	System.out.println("\nCluster "+(i+1));
+        	for(DataPoint dp : c.memberDataPoints )
+        	{
+        		System.out.println(dp.point);
+        	}
+        	i++;
+        }*/
+        
+        //DB Index
+        DBIndex dbindex = new DBIndex(clusters);
+        System.out.println(dbindex.returnIndex());
 }
 
 	private static void fetchData() throws NumberFormatException
@@ -169,27 +189,7 @@ public class Fcm {
 				}
 				
 			}
-		}
-		/*
-		for(int i = 0; i < noOfClusters; i++)
-		{
-			for(int j=0; j<datapoints.size();j++)
-			{
-				System.out.print(oldMembership[i][j] + " ");
-			}
-			System.out.println();
-		}
-		
-		for(int i = 0; i < noOfClusters; i++)
-		{
-			for(int j=0; j<datapoints.size();j++)
-			{
-				System.out.print(membership[i][j] + " ");
-			}
-			System.out.println();
-		}*/
-		
-		
+		}		
 	}
 	
 	private static void determineNewCentroid()
@@ -274,6 +274,21 @@ public class Fcm {
 			{
 				currPoint.set(i, (currPoint.get(i)-min[i])/(max[i]-min[i]));
 			}
+		}
+	}
+	
+	public static void allotPointsToClusters()
+	{
+		for(int j=0;j<datapoints.size();j++)		//For each datapoint
+		{
+			int maxPos=0;							//Finding cluster to which the jth cluster has maximum membership
+			for(int i=0; i<noOfClusters;i++)
+			{
+				if(membership[i][j]>membership[maxPos][j])
+					maxPos = i;
+			}
+			
+			clusters.get(maxPos).memberDataPoints.add(datapoints.get(j));	//adding datapoint to cluster with max membership
 		}
 	}
 }
